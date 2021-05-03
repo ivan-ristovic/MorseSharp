@@ -8,6 +8,7 @@ namespace MorseSharp.Core
     public static class MorseConverter
     {
         private static readonly ImmutableSortedDictionary<char, MorseSymbol[]> _alphabet = new Dictionary<char, MorseSymbol[]>() {
+            { ' ' , new MorseSymbol[] { } },
             { 'A' , new[] { MorseSymbol.Dit, MorseSymbol.Dah } },
             { 'B' , new[] { MorseSymbol.Dah, MorseSymbol.Dit, MorseSymbol.Dit, MorseSymbol.Dit } },
             { 'C' , new[] { MorseSymbol.Dah, MorseSymbol.Dit, MorseSymbol.Dah, MorseSymbol.Dit } },
@@ -48,9 +49,12 @@ namespace MorseSharp.Core
 
 
         public static IReadOnlyList<MorseSymbol> ToMorse(char c) 
-            => _alphabet.TryGetValue(char.ToUpper(c), out MorseSymbol[]? code) ? code : throw new ArgumentException($"No translation present for: {c}");
+            => _alphabet.TryGetValue(char.ToUpper(c), out MorseSymbol[]? code) ? code : _alphabet[' '];
 
         public static IReadOnlyList<IReadOnlyList<MorseSymbol>> ToMorse(string input)
-            => input.ToUpperInvariant().Select(ToMorse).ToList().AsReadOnly();
+            => input.ToUpperInvariant().Select(ToMorse).Append(EndOfInput()).ToList().AsReadOnly();
+
+        public static IReadOnlyList<MorseSymbol> EndOfInput()
+            => new[] { MorseSymbol.Dit, MorseSymbol.Dah, MorseSymbol.Dit, MorseSymbol.Dah, MorseSymbol.Dit, MorseSymbol.Dah };
     }
 }

@@ -38,7 +38,13 @@ namespace MorseSharp
                 Console.WriteLine($"dit duration = {ditDuration}");
 
             IReadOnlyList<IReadOnlyList<MorseSymbol>> code = MorseConverter.ToMorse(input!);
-            foreach ((IReadOnlyList<MorseSymbol> Morse, char Char) in code.Zip(input!)) {
+            foreach ((IReadOnlyList<MorseSymbol> Morse, char Char) in code.Zip(input.Concat(new[] { '/' }))) {
+                if (char.IsWhiteSpace(Char)) {
+                    if (o.Verbose)
+                        Console.WriteLine();
+                    Thread.Sleep(3 * ditDuration);
+                    continue;
+                }
                 if (o.Verbose) {
                     Console.Write(Char);
                     Console.Write(": ");
