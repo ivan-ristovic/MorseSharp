@@ -16,9 +16,6 @@ namespace MorseSharp
 
         [Option('f', "freq", Required = false, HelpText = "Beep frequency", Default = 1000)]
         public ushort Frequency { get; set; }
-
-        [Value(0, Required = true, HelpText = "Specification path")]
-        public string? Input { get; set; }
     }
 
     [Verb("from", HelpText = "Convert from Morse")]

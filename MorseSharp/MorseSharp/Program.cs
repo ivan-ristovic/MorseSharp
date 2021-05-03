@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using CommandLine;
@@ -22,15 +24,21 @@ namespace MorseSharp
 
         private static int ConvertToMorse(ToOptions o)
         {
-            if (string.IsNullOrWhiteSpace(o.Input))
+            string? input;
+
+            using (var stdin = new StreamReader(Console.OpenStandardInput())) {
+                input = stdin.ReadToEnd().Trim();
+            }
+
+            if (string.IsNullOrWhiteSpace(input))
                 Exit("Input missing.");
 
             int ditDuration = (int)(60.0 / (50.0 * o.Wpm) * 1000.0);
             if (o.Verbose)
                 Console.WriteLine($"dit duration = {ditDuration}");
 
-            IReadOnlyList<IReadOnlyList<MorseSymbol>> code = MorseConverter.ToMorse(o.Input!);
-            foreach ((IReadOnlyList<MorseSymbol> Morse, char Char) in code.Zip(o.Input!)) {
+            IReadOnlyList<IReadOnlyList<MorseSymbol>> code = MorseConverter.ToMorse(input!);
+            foreach ((IReadOnlyList<MorseSymbol> Morse, char Char) in code.Zip(input!)) {
                 if (o.Verbose) {
                     Console.Write(Char);
                     Console.Write(": ");
