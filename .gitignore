@@ -338,3 +338,4 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/MorseSharp/MorseSharp/Properties/launchSettings.json
