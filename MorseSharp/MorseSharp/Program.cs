@@ -42,6 +42,8 @@ namespace MorseSharp
                 if (char.IsWhiteSpace(Char)) {
                     if (o.Verbose)
                         Console.WriteLine();
+                    else
+                        Console.Write("   ");
                     Thread.Sleep(3 * ditDuration);
                     continue;
                 }
@@ -50,6 +52,7 @@ namespace MorseSharp
                     Console.Write(": ");
                 }
                 Console.Write(string.Join("", Morse.Select(m => m.ToMorseChar())));
+                Console.Write(' ');
                 if (o.Verbose)
                     Console.WriteLine();
                 if (o.Play) {
