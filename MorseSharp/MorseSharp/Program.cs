@@ -31,7 +31,7 @@ namespace MorseSharp
             }
 
             if (string.IsNullOrWhiteSpace(input))
-                Exit("Input missing.");
+                Exit("Input missing");
 
             int ditDuration = (int)(60.0 / (50.0 * o.Wpm) * 1000.0);
             if (o.Verbose)
